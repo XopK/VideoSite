@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Models\Video;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    $videos = Video::with('users')->get();
+    return view('index', ['videos' => $videos]);
 });
 
 Route::get('/signup', [UserController::class, 'signup'])->name('signup');
@@ -26,3 +28,7 @@ Route::get('/signin', [UserController::class, 'signin'])->name('signin');
 Route::post('/signin', [UserController::class, 'signin_valid'])->name('signin_valid');
 
 Route::get('/profile', [VideoController::class, 'profile'])->name('profile');
+Route::get('/profile/addVideo', [VideoController::class, 'addVideo'])->name('addVideo');
+Route::post('/profile/createVideo', [VideoController::class, 'createVideo'])->name('createVideo');
+
+Route::get('/video/{id}', [VideoController::class, 'VideoPage'])->name('video');

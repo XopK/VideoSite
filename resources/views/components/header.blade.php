@@ -11,11 +11,6 @@
             @endauth
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-            <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..."
-                aria-label="Search">
-        </form>
-
         <div class="text-end">
             @guest
                 <a href="{{ route('signin') }}" class="btn btn-outline-light me-2">Вход</a>

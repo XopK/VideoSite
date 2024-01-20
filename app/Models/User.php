@@ -45,7 +45,7 @@ class User extends Authenticatable
     ];
 
     public function role(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'id_role');
     }
 
     public function video(){

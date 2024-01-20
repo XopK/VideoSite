@@ -19,10 +19,10 @@
         <div class="top-profile mt-3 d-flex justify-content-between align-items-center">
             <h1>{{ Auth::user()->login }}</h1>
             <div class="add">
-                <a class="btn btn-success" href="">+ Добавить видео</a>
+                <a class="btn btn-success" href="{{route('addVideo')}}">+ Добавить видео</a>
             </div>
         </div>
-        <div class="block-videos mt-5">
+        <div class="block-videos d-flex flex-wrap gap-5 mt-5">
             @forelse ($videos as $item)
                 @php
                     $diff = $item->created_at->diffForHumans();

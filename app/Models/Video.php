@@ -15,9 +15,15 @@ class Video extends Model
         'preview',
         'description',
         'id_user',
+        'id_category',
     ];
 
     public function users(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'id_user');
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'id_category');
     }
 }

@@ -15,6 +15,27 @@
 
 <body>
     <x-header></x-header>
+    <div class="container">
+        <div class="block-videos d-flex flex-wrap gap-5 mt-5">
+            @forelse ($videos as $item)
+                @php
+                    $diff = $item->created_at->diffForHumans();
+                @endphp
+                <div class="card" style="width: 18rem;">
+                    <img src="/storage/preview/{{ $item->preview }}" class="card-img-top" alt="{{ $item->preview }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $item->title_video }}</h5>
+                        <h5>{{ $item->users->login }}</h5>
+                        <p class="card-text">{{ $diff }}</p>
+                        <a href="/video/{{$item->id}}" class="btn btn-primary">Смотреть</a>
+                    </div>
+                </div>
+            @empty
+                <h1>Пусто</h1>
+            @endforelse
+
+        </div>
+    </div>
 </body>
 
 </html>
