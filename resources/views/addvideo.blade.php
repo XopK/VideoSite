@@ -18,7 +18,7 @@
 
     <div class="container">
         <h1 class="mt-3">Добавить видео</h1>
-        <form action="{{route('createVideo')}}" enctype="multipart/form-data" method="POST">
+        <form action="{{ route('createVideo') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="videoTitle" class="form-label">Название видео</label>
@@ -81,13 +81,13 @@
             </div>
             <button type="submit" class="btn btn-primary">Отправить</button>
             @if (session('success'))
-            <div class="alert alert-success alert-dismissible mt-3">
-                <div class="alert-text">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-success alert-dismissible mt-3">
+                    <div class="alert-text">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
         </form>
     </div>
 </body>
