@@ -16,13 +16,13 @@
 <body>
     <x-header></x-header>
     <div class="container">
-        <div class="top-profile mt-3 d-flex justify-content-between align-items-center">
-            <h1>{{ Auth::user()->login }}</h1>
+        <div class="top-profile d-flex justify-content-between align-items-center">
+            <h1 class="my-3">{{ Auth::user()->login }}</h1>
             <div class="add">
-                <a class="btn btn-success" href="{{route('addVideo')}}">+ Добавить видео</a>
+                <a class="btn btn-success" href="{{ route('addVideo') }}">+ Добавить видео</a>
             </div>
         </div>
-        <div class="block-videos d-flex flex-wrap gap-5 mt-5">
+        <div class="block-videos d-flex flex-wrap gap-5">
             @forelse ($videos as $item)
                 @php
                     $diff = $item->created_at->diffForHumans();
@@ -32,9 +32,9 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->title_video }}</h5>
                         <p class="card-text">{{ $diff }}</p>
-                        <a href="/video/{{$item->id}}" class="btn btn-primary">Смотреть</a>
-                        <a href="/video/{{$item->id}}" class="btn btn-danger">Удалить</a>
-                        <a href="/video/{{$item->id}}" class="btn btn-warning mt-1">Редактировать</a>
+                        <a href="/video/{{ $item->id }}" class="btn btn-primary">Смотреть</a>
+                        <a href="/video/{{ $item->id }}" class="btn btn-danger">Удалить</a>
+                        <a href="/video/{{ $item->id }}" class="btn btn-warning mt-1">Редактировать</a>
                     </div>
                 </div>
             @empty

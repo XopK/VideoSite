@@ -3,24 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
-    public function profile(){
+    public function profile()
+    {
         $user_video = Auth::user()->video()->get();
         return view('profile', ['videos' => $user_video]);
     }
 
-    public function addVideo(){
+    public function addVideo()
+    {
         $categories = Category::all();
 
         return view('addvideo', ['categories' => $categories]);
     }
 
-    public function createVideo(Request $request){
+    public function createVideo(Request $request)
+    {
         $request->validate([
             'title_video' => 'required',
             'video' => 'required',
@@ -56,9 +60,20 @@ class VideoController extends Controller
         return redirect()->back()->with('success', 'Видео добавлено!');
     }
 
-    public function VideoPage(Video $id){
+    public function VideoPage(Video $id)
+    {
         $category = $id->category;
         $user = $id->users;
-        return view('videoPage', ['video' => $id, 'category'=>$category, 'user' => $user]);
+        return view('videoPage', ['video' => $id, 'category' => $category, 'user' => $user]);
+    }
+
+    public function Comment(Request $request, Comment $id)
+    {
+        dd($id);
+        $request->validate([
+            'comment' => 'required',
+        ], [
+            'comment.required' => 'Заполните поле!',
+        ]);
     }
 }
