@@ -36,7 +36,7 @@
         <p class="fw-semibold">{{ $video->description }}</p>
         <div class="comment">
             <h3>Комментарии</h3>
-            <form action="/video/{{ $video->id }}/comment" class="d-flex align-items-center" method="POST">
+            <form action="/video/comment/{{ $video->id }}" class="d-flex align-items-center" method="POST">
                 @csrf
                 <input type="text" name="comment" class="form-control" id="exampleFormControlInput1"
                     placeholder="Комментарий">
