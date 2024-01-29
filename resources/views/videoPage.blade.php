@@ -36,24 +36,41 @@
         <p class="fw-semibold">{{ $video->description }}</p>
         <div class="comment">
             <h3>Комментарии</h3>
-            <form action="/video/comment/{{ $video->id }}" class="d-flex align-items-center" method="POST">
+            <form action="/video/{{ $video->id }}/comment" class="d-flex align-items-center" method="POST">
                 @csrf
                 <input type="text" name="comment" class="form-control" id="exampleFormControlInput1"
                     placeholder="Комментарий">
                 <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
             @error('comment')
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
                     {{ $message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @enderror
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mt-3">
+                    <div class="alert-text">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
+            @forelse ($comments as $comment)
             <hr>
             <div class="user-comm">
-                <h3>danyaa22</h3>
-                <p>Класнное видео</p>
+                <h3>{{$comment->users_comm->login}}</h3>
+                <p>{{$comment->comment}}</p>
+            </div>
+            @empty
+            <hr>
+            <div class="user-comm">
+               <h1>Пусто</h1>
             </div>
             <hr>
+            @endforelse
+            <hr>
+            
         </div>
     </div>
 </body>

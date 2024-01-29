@@ -64,16 +64,33 @@ class VideoController extends Controller
     {
         $category = $id->category;
         $user = $id->users;
-        return view('videoPage', ['video' => $id, 'category' => $category, 'user' => $user]);
+        $comment = Comment::with('users_comm')->where('id_video', $id->id)->orderBy('created_at', 'desc')->get();
+
+        return view('videoPage', ['video' => $id, 'category' => $category, 'user' => $user, 'comments' => $comment]);
     }
 
-    public function Comment(Request $request, Comment $id)
+    public function Comment(Request $request, Video $video)
     {
-        dd($id);
-        $request->validate([
-            'comment' => 'required',
-        ], [
-            'comment.required' => 'Заполните поле!',
-        ]);
+        if (Auth::user()) {
+            $request->validate([
+                'comment' => 'required',
+            ], [
+                'comment.required' => 'Заполните поле!',
+            ]);
+
+            $user = Auth::user();
+            $video_id = $video->id;
+
+            $comment = Comment::create([
+                'comment' => $request->comment,
+                'id_video' => $video_id,
+                'id_user' => $user->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Комментарий добавлен!');
+            
+        } else {
+            return redirect()->back()->with('error', 'Пожайлуста авторизируйтесь!');
+        }
     }
 }

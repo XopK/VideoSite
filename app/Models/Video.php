@@ -26,4 +26,8 @@ class Video extends Model
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function Comments(){
+        return $this->hasMany(Comment::class, 'id_video');
+    }
 }

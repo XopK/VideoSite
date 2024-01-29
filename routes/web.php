@@ -32,4 +32,4 @@ Route::get('/profile/addVideo', [VideoController::class, 'addVideo'])->name('add
 Route::post('/profile/createVideo', [VideoController::class, 'createVideo'])->name('createVideo');
 
 Route::get('/video/{id}', [VideoController::class, 'VideoPage'])->name('video');
-Route::post('/video/comment/{id}', [VideoController::class, 'Comment'])->name('comment');
+Route::post('/video/{video}/comment', [VideoController::class, 'Comment']);
