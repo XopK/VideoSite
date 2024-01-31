@@ -27,6 +27,24 @@ class Video extends Model
         return $this->belongsTo(Category::class, 'id_category');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'id_video');
+    }
+
+    public function likesCount(){
+        return $this->likes()->count();
+    }
+
+    public function disslikes()
+    {
+        return $this->hasMany(Disslike::class, 'id_video');
+    }
+
+    public function disslikesCount(){
+        return $this->disslikes()->count();
+    }
+
     public function Comments(){
         return $this->hasMany(Comment::class, 'id_video');
     }

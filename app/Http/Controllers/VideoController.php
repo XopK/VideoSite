@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,9 +89,30 @@ class VideoController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Комментарий добавлен!');
-            
         } else {
             return redirect()->back()->with('error', 'Пожайлуста авторизируйтесь!');
+        }
+    }
+
+    public function like($video)
+    {
+        $user = Auth::user();
+
+
+        if ($user) {
+            $existingLike = Like::where('id_user', $user->id)->where('id_video', $video)->first();
+            if ($existingLike) {
+                return redirect()->back()->with('like_error', 'Лайк уже стоит!');
+            } else {
+                $like = Like::create([
+                    'id_video' => $video,
+                    'id_user' => $user->id,
+                ]);
+
+                return redirect()->back()->with('like', 'Лайк поставлен');
+            }
+        } else {
+            return redirect()->back()->with('like_error', 'Авторизируйтесь!');
         }
     }
 }

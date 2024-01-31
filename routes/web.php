@@ -33,3 +33,6 @@ Route::post('/profile/createVideo', [VideoController::class, 'createVideo'])->na
 
 Route::get('/video/{id}', [VideoController::class, 'VideoPage'])->name('video');
 Route::post('/video/{video}/comment', [VideoController::class, 'Comment']);
+
+Route::get('/video/{video}/like', [VideoController::class, 'like']);
+Route::get('/video/{video/disslike', [VideoController::class, 'disslike']);

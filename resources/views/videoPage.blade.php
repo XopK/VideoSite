@@ -26,13 +26,23 @@
         </div>
         <h1 class="mt-2">{{ $video->title_video }}</h1>
         <div class="like-disslike d-flex align-items-center">
-            0 <a href=""><span class="material-symbols-outlined mx-2">
+            {{ $video->likesCount() }} <a href="/video/{{ $video->id }}/like"><span
+                    class="material-symbols-outlined mx-2">
                     thumb_up
                 </span></a>
-            0 <a href=""><span class="material-symbols-outlined mx-2">
+            {{ $video->disslikesCount() }} <a href="/video/{{ $video->id }}/disslike"><span
+                    class="material-symbols-outlined mx-2">
                     thumb_down
                 </span></a>
         </div>
+        @if (session('like_error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3">
+                <div class="alert-text">
+                    {{ session('like_error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        @endif
         <p class="fw-semibold">{{ $video->description }}</p>
         <div class="comment">
             <h3>Комментарии</h3>
@@ -57,20 +67,20 @@
                 </div>
             @endif
             @forelse ($comments as $comment)
-            <hr>
-            <div class="user-comm">
-                <h3>{{$comment->users_comm->login}}</h3>
-                <p>{{$comment->comment}}</p>
-            </div>
+                <hr>
+                <div class="user-comm">
+                    <h3>{{ $comment->users_comm->login }}</h3>
+                    <p>{{ $comment->comment }}</p>
+                </div>
             @empty
-            <hr>
-            <div class="user-comm">
-               <h1>Пусто</h1>
-            </div>
-            <hr>
+                <hr>
+                <div class="user-comm">
+                    <h1>Пусто</h1>
+                </div>
+                <hr>
             @endforelse
             <hr>
-            
+
         </div>
     </div>
 </body>
