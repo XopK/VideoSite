@@ -57,15 +57,17 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function signin(){
+    public function signin()
+    {
         return view('signin');
     }
 
-    public function signin_valid(Request $request){
+    public function signin_valid(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
-        ],[
+        ], [
             'email.required' => 'Поле обязательно для заполнения!',
             'password.required' => 'Поле обязательно для заполнения!',
             'email.email' => 'Введите действительный адрес!',
@@ -74,12 +76,16 @@ class UserController extends Controller
 
         $signinData = $request->all();
 
-        if(Auth::attempt([
+        if (Auth::attempt([
             'email' => $signinData['email'],
             'password' => $signinData['password'],
-        ])){
-            return redirect('/')->with('success', 'Вы успешно авторизировались!');
-        }else{
+        ])) {
+            if (Auth::user()->id_role == 1) {
+                return redirect('/admin')->with('success', 'Здраствуй админ!');
+            } else {
+                return redirect('/')->with('success', 'Вы успешно авторизировались!');
+            }
+        } else {
             return redirect()->back()->with('error', 'Ошибка авторизации!');
         }
     }

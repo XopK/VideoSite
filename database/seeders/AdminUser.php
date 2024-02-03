@@ -20,7 +20,7 @@ class AdminUser extends Seeder
             'login' => 'admin',
             'email' => 'dmahmutov12@gmail.com',
             'id_role' => 1,
-            'password' => Hash::make('oiSD$83s4Fda23d_S23'),
+            'password' => Hash::make('dmahmutov12@gmail.com'),
             'created_at' => $currentDate,
             'updated_at' => $currentDate,
         ]);

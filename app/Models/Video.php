@@ -13,6 +13,7 @@ class Video extends Model
         'title_video',
         'video',
         'preview',
+        'status',
         'description',
         'id_user',
         'id_category',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Disslike;
 use App\Models\Like;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -53,6 +54,7 @@ class VideoController extends Controller
             'title_video' => $videoData['title_video'],
             'video' => $name_video,
             'preview' => $name_preview,
+            'id_status' => 1,
             'description' => $videoData['description'],
             'id_user' => Auth::user()->id,
             'id_category' => $videoData['category'],
@@ -97,19 +99,57 @@ class VideoController extends Controller
     public function like($video)
     {
         $user = Auth::user();
-
-
         if ($user) {
             $existingLike = Like::where('id_user', $user->id)->where('id_video', $video)->first();
+            $existingDissLike = Disslike::where('id_user', $user->id)->where('id_video', $video)->first();
             if ($existingLike) {
-                return redirect()->back()->with('like_error', 'Лайк уже стоит!');
+                $existingLike->delete();
+                return redirect()->back();
             } else {
-                $like = Like::create([
-                    'id_video' => $video,
-                    'id_user' => $user->id,
-                ]);
-
+                if ($existingDissLike) {
+                    $existingDissLike->delete();
+                    $like = Like::create([
+                        'id_video' => $video,
+                        'id_user' => $user->id,
+                    ]);
+                    return redirect()->back();
+                } else {
+                    $like = Like::create([
+                        'id_video' => $video,
+                        'id_user' => $user->id,
+                    ]);
+                }
                 return redirect()->back()->with('like', 'Лайк поставлен');
+            }
+        } else {
+            return redirect()->back()->with('like_error', 'Авторизируйтесь!');
+        }
+    }
+
+    public function disslike($video)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $existingLike = Like::where('id_user', $user->id)->where('id_video', $video)->first();
+            $existingDissLike = Disslike::where('id_user', $user->id)->where('id_video', $video)->first();
+            if ($existingDissLike) {
+                $existingDissLike->delete();
+                return redirect()->back();
+            } else {
+                if ($existingLike) {
+                    $existingLike->delete();
+                    $like = Disslike::create([
+                        'id_video' => $video,
+                        'id_user' => $user->id,
+                    ]);
+                    return redirect()->back();
+                } else {
+                    $like = Disslike::create([
+                        'id_video' => $video,
+                        'id_user' => $user->id,
+                    ]);
+                }
+                return redirect()->back()->with('like', 'Дизлайк поставлен');
             }
         } else {
             return redirect()->back()->with('like_error', 'Авторизируйтесь!');

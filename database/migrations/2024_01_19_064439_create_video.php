@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title_video');
             $table->string('video');
             $table->string('preview');
+            $table->foreignId('id_status')->references('id')->on('status');
             $table->longText('description');
             $table->foreignId('id_user')->references('id')->on('users');
             $table->foreignId('id_category')->references('id')->on('categories');

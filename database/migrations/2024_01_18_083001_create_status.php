@@ -1,0 +1,31 @@
+<?php
+
+use Database\Seeders\TitleStatus;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('status', function (Blueprint $table) {
+            $table->id();
+            $table->string('title_status');
+            $table->timestamps();
+        });
+        Artisan::call('db:seed', ['--class' => TitleStatus::class]);
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('status');
+    }
+};

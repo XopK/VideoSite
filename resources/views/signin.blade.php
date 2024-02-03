@@ -22,7 +22,7 @@
     <x-header></x-header>
     <div class="container">
         <h1 class="my-3 text-center">Авторизация</h1>
-        <form style="margin: 0 auto" class="w-50 form-signup" action="{{route('signin_valid')}}" method="POST">
+        <form style="margin: 0 auto" class="w-50 form-signup" action="{{ route('signin_valid') }}" method="POST">
             @csrf
             <div class="form-floating">
                 <input type="email" name="email" class="form-control" id="floatingemail" placeholder="Почта">
@@ -45,6 +45,14 @@
                 @enderror
             </div>
             <button class="btn btn-primary mt-3" type="submit">Войти</button>
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible mt-3">
+                    <div class="alert-text">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
         </form>
     </div>
 </body>

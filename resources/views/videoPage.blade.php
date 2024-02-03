@@ -77,7 +77,6 @@
                 <div class="user-comm">
                     <h1>Пусто</h1>
                 </div>
-                <hr>
             @endforelse
             <hr>
 

@@ -17,8 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $videos = Video::with('users')->get();
+    $videos = Video::with('users')->where('id_status', 1)->get();
     return view('index', ['videos' => $videos]);
+});
+
+Route::get('/admin', function () {
+    $videoAdmin = Video::with('users')->get();
+    return view('admin.index', ['videos' =>$videoAdmin]);
 });
 
 Route::get('/signup', [UserController::class, 'signup'])->name('signup');
@@ -35,4 +40,4 @@ Route::get('/video/{id}', [VideoController::class, 'VideoPage'])->name('video');
 Route::post('/video/{video}/comment', [VideoController::class, 'Comment']);
 
 Route::get('/video/{video}/like', [VideoController::class, 'like']);
-Route::get('/video/{video/disslike', [VideoController::class, 'disslike']);
+Route::get('/video/{video}/disslike', [VideoController::class, 'disslike']);
