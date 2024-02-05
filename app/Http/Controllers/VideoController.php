@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
+    public function index(Request $request)
+    {
+        if (!isset($request->sort)) {
+            $videos = Video::with('users', 'status')->where('id_status', 1)->orderBy('created_at', 'desc')->get();
+        } else {
+            $videos = Video::with('users', 'status')->where('id_status', 1)->orderBy('created_at', 'asc')->get();
+        }
+
+        return view('index', ['videos' => $videos]);
+    }
+
     public function profile()
     {
         $user_video = Auth::user()->video()->get();
@@ -154,5 +165,22 @@ class VideoController extends Controller
         } else {
             return redirect()->back()->with('like_error', 'Авторизируйтесь!');
         }
+    }
+
+    public function updateStatus(Request $request, Video $id)
+    {
+        if (!is_null($request->status)) {
+            $id->update([
+                'id_status' => $request->status,
+            ]);
+            return redirect()->back()->with('success', 'Статус обновлен!');
+        } else {
+            return redirect()->back()->with('status', 'Выберите статус!');
+        }
+    }
+
+    public function deleteVideo(Video $id){
+        $id -> delete();
+        return redirect()->back()->with('success', 'Видео удалено!');
     }
 }

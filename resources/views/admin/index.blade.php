@@ -15,8 +15,27 @@
 
 <body>
     <div class="container">
-        <h1>Админ панель</h1>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Админ панель</h1>
+            <a href="{{ Route('exit') }}" class="btn btn-danger">Выход</a>
+        </div>
+        @if (session('status'))
+            <div class="alert alert-danger alert-dismissible mt-3">
+                <div class="alert-text">
+                    {{ session('status') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible mt-3">
+                <div class="alert-text">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        @endif
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
             @forelse ($videos as $video)
                 <div class="col">
                     <div class="card">
@@ -27,14 +46,19 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $video->title_video }}</h5>
                             <p class="card-text">{{ $video->users->login }}</p>
-                            <form action="">
-                                <select class="form-select form-select-sm" name="status" aria-label="Small select example">
-                                    <option selected>Выберите статус</option>
-                                    <option value="1">Без ограничений</option>
-                                    <option value="2">Нарушение</option>
-                                    <option value="3">Теневой бан</option>
-                                    <option value="4">Бан</option>
+                            <form action="/admin/updateStatus/{{ $video->id }}" method="POST">
+                                @csrf
+                                <select class="form-select form-select-sm" name="status"
+                                    aria-label="Small select example">
+                                    <option disabled selected>{{ $video->status->title_status }}</option>
+                                    @foreach ($statuses as $status)
+                                        @if ($status->id == $video->status->id)
+                                        @else
+                                            <option value="{{ $status->id }}">{{ $status->title_status }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
+                                <button type="submit" class="btn btn-primary mt-2">Обновить</button>
                             </form>
                         </div>
                     </div>

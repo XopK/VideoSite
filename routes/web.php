@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Models\Status;
 use App\Models\Video;
 use Illuminate\Support\Facades\Route;
+use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $videos = Video::with('users')->where('id_status', 1)->get();
-    return view('index', ['videos' => $videos]);
-});
+Route::get('/', [VideoController::class, 'index']);
 
 Route::get('/admin', function () {
     $videoAdmin = Video::with('users')->get();
-    return view('admin.index', ['videos' =>$videoAdmin]);
+    $status = Status::all();
+    return view('admin.index', ['videos' =>$videoAdmin, 'statuses' => $status]);
 });
 
 Route::get('/signup', [UserController::class, 'signup'])->name('signup');
@@ -41,3 +41,7 @@ Route::post('/video/{video}/comment', [VideoController::class, 'Comment']);
 
 Route::get('/video/{video}/like', [VideoController::class, 'like']);
 Route::get('/video/{video}/disslike', [VideoController::class, 'disslike']);
+
+Route::post('/admin/updateStatus/{id}', [VideoController::class, 'updateStatus']);
+
+Route::get('/profile/delete/{id}', [VideoController::class, 'deleteVideo']);

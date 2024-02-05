@@ -13,7 +13,7 @@ class Video extends Model
         'title_video',
         'video',
         'preview',
-        'status',
+        'id_status',
         'description',
         'id_user',
         'id_category',
@@ -48,5 +48,10 @@ class Video extends Model
 
     public function Comments(){
         return $this->hasMany(Comment::class, 'id_video');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'id_status');
     }
 }

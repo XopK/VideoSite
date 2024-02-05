@@ -33,8 +33,7 @@
                         <h5 class="card-title">{{ $item->title_video }}</h5>
                         <p class="card-text">{{ $diff }}</p>
                         <a href="/video/{{ $item->id }}" class="btn btn-primary">Смотреть</a>
-                        <a href="/video/{{ $item->id }}" class="btn btn-danger">Удалить</a>
-                        <a href="/video/{{ $item->id }}" class="btn btn-warning mt-1">Редактировать</a>
+                        <a href="/profile/delete/{{ $item->id }}" class="btn btn-danger">Удалить</a>
                     </div>
                 </div>
             @empty

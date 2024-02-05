@@ -16,7 +16,20 @@
 <body>
     <x-header></x-header>
     <div class="container">
-        <h1 class="my-3">Главная</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="my-3">Главная</h1>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Сортировать
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/">новые видео</a></li>
+                    <li><a class="dropdown-item" href="/?sort=asc">старые видео</a></li>
+                </ul>
+            </div>
+        </div>
+
         <div class="block-videos d-flex flex-wrap gap-5">
             @forelse ($videos as $item)
                 @php
