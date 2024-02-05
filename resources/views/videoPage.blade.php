@@ -18,69 +18,74 @@
 <body>
     <x-header></x-header>
     <div class="container">
-        <p class="fst-normal mt-3">Автор: {{ $user->login }}</p>
-        <p class="fw-light">{{ $category->title_category }}</p>
-        <div class="video-player  d-flex align-items-center">
-            <video controls width="50%">
-                <source src="/storage/videos/{{ $video->video }}">
-        </div>
-        <h1 class="mt-2">{{ $video->title_video }}</h1>
-        <div class="like-disslike d-flex align-items-center">
-            {{ $video->likesCount() }} <a href="/video/{{ $video->id }}/like"><span
-                    class="material-symbols-outlined mx-2">
-                    thumb_up
-                </span></a>
-            {{ $video->disslikesCount() }} <a href="/video/{{ $video->id }}/disslike"><span
-                    class="material-symbols-outlined mx-2">
-                    thumb_down
-                </span></a>
-        </div>
-        @if (session('like_error'))
-            <div class="alert alert-danger alert-dismissible fade show mt-3">
-                <div class="alert-text">
-                    {{ session('like_error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+        @if ($video->id_status == 1 || $video->id_status == 3)
+            <p class="fst-normal mt-3">Автор: {{ $user->login }}</p>
+            <p class="fw-light">{{ $category->title_category }}</p>
+            <div class="video-player  d-flex align-items-center">
+                <video controls width="50%">
+                    <source src="/storage/videos/{{ $video->video }}">
             </div>
-        @endif
-        <p class="fw-semibold">{{ $video->description }}</p>
-        <div class="comment">
-            <h3>Комментарии</h3>
-            <form action="/video/{{ $video->id }}/comment" class="d-flex align-items-center" method="POST">
-                @csrf
-                <input type="text" name="comment" class="form-control" id="exampleFormControlInput1"
-                    placeholder="Комментарий">
-                <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
-            @error('comment')
-                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    {{ $message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @enderror
-            @if (session('error'))
+            <h1 class="mt-2">{{ $video->title_video }}</h1>
+            <div class="like-disslike d-flex align-items-center">
+                {{ $video->likesCount() }} <a href="/video/{{ $video->id }}/like"><span
+                        class="material-symbols-outlined mx-2">
+                        thumb_up
+                    </span></a>
+                {{ $video->disslikesCount() }} <a href="/video/{{ $video->id }}/disslike"><span
+                        class="material-symbols-outlined mx-2">
+                        thumb_down
+                    </span></a>
+            </div>
+            @if (session('like_error'))
                 <div class="alert alert-danger alert-dismissible fade show mt-3">
                     <div class="alert-text">
-                        {{ session('error') }}
+                        {{ session('like_error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 </div>
             @endif
-            @forelse ($comments as $comment)
+            <p class="fw-semibold">{{ $video->description }}</p>
+            <div class="comment">
+                <h3>Комментарии</h3>
+                <form action="/video/{{ $video->id }}/comment" class="d-flex align-items-center" method="POST">
+                    @csrf
+                    <input type="text" name="comment" class="form-control" id="exampleFormControlInput1"
+                        placeholder="Комментарий">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+                @error('comment')
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        {{ $message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @enderror
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-3">
+                        <div class="alert-text">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </div>
+                @endif
+                @forelse ($comments as $comment)
+                    <hr>
+                    <div class="user-comm">
+                        <h3>{{ $comment->users_comm->login }}</h3>
+                        <p>{{ $comment->comment }}</p>
+                    </div>
+                @empty
+                    <hr>
+                    <div class="user-comm">
+                        <h1>Пусто</h1>
+                    </div>
+                @endforelse
                 <hr>
-                <div class="user-comm">
-                    <h3>{{ $comment->users_comm->login }}</h3>
-                    <p>{{ $comment->comment }}</p>
-                </div>
-            @empty
-                <hr>
-                <div class="user-comm">
-                    <h1>Пусто</h1>
-                </div>
-            @endforelse
-            <hr>
 
-        </div>
+            </div> 
+        @else
+            <h1>Данное видео заблокировано!</h1>
+        @endif
+
     </div>
 </body>
 
